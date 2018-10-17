@@ -424,7 +424,7 @@ function install_wordpress
 	chmod 700 +x /root/binom_check_space.sh
 	
 	#Make 404 File#
-	cat > /usr/local/bin/rsync-time-backup/rsynctm-exclude.txt <<- EOF
+	cat >> $WORDPRESSPATH <<END
         <HTML>
         <HEAD>
         <TITLE>Page Not Found</TITLE>
@@ -433,7 +433,7 @@ function install_wordpress
         <H1>Page Not Found</H1>
         </BODY>
         </HTML>
-        EOF
+        END
         
 	#Install IonCube#
 	wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
