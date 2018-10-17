@@ -30,7 +30,6 @@ function getRandPassword
     TEMPRANDSTR=`echo "$TEMPRANDSTR$RANDOM$DATE" |  md5sum | base64 | head -c 8`
 }
 
-#SITEDOMAIN=test.com
 OSNAMEVER=UNKNOWN
 OSNAME=
 OSVER=
