@@ -424,16 +424,7 @@ function install_wordpress
 	chmod 700 +x /root/binom_check_space.sh
 	
 	#Make 404 File#
-	cat >> $WORDPRESSPATH <<END
-        <HTML>
-        <HEAD>
-        <TITLE>Page Not Found</TITLE>
-        </HEAD>
-        <BODY BGCOLOR="#FFFFFF">
-        <H1>Page Not Found</H1>
-        </BODY>
-        </HTML>
-        END
+	wget -P $WORDPRESSPATH https://consumergen.com/404.html
         
 	#Install IonCube#
 	wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
