@@ -842,16 +842,6 @@ rewrite  {
   logLevel                0
 }
 
-    
-    
-    
-    
-
-END_rules
-
-  }
-}
-
 END
             chown -R lsadm:lsadm $SERVER_ROOT/conf/
         fi
@@ -873,23 +863,6 @@ END
         ALLERRORS=1
     fi
 }
-
-
-#function activate_cache
-#{
- #   cat > $WORDPRESSPATH/activate_cache.php <<END 
-#<?php
-#include '$WORDPRESSPATH/wp-load.php';
-#include_once '$WORDPRESSPATH/wp-admin/includes/plugin.php';
-#include_once '$WORDPRESSPATH/wp-admin/includes/file.php';
-#define('WP_ADMIN', true);
-#activate_plugin('litespeed-cache/litespeed-cache.php', '', false, false);
-
-#END
- #   $SERVER_ROOT/fcgi-bin/lsphp5 $WORDPRESSPATH/activate_cache.php
-  #  rm $WORDPRESSPATH/activate_cache.php
-#}
-
 
 function getCurStatus
 {
