@@ -425,6 +425,7 @@ function install_wordpress
         wget -P /root http://data.binom.org/binom_check_space.sh
         chown -R nobody:nobody /root/binom_check_space.sh
         wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+	cd /root
         tar -xzvf ioncube_loaders_lin_x86-64.tar.gz
         cp ioncube/ioncube_loader_lin_5.6.so /usr/local/lsws/lsphp56/lib64/php/modules/ioncube_loader_lin_5.6.so
         echo "zend_extension = /usr/local/lsws/lsphp56/lib64/php/modules/ioncube_loader_lin_5.6.so" \
