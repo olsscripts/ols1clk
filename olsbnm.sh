@@ -414,17 +414,29 @@ function install_wordpress
         wget -P $WORDPRESSPATH https://data.binom.org/Install_Binom_Latest.tar.gz
         tar -xzvf Install_Binom_Latest.tar.gz  >/dev/null 2>&1
         rm Install_Binom_Latest.tar.gz
-        #if [ "x$WPBASENAME" != "xwordpress" ] ; then
-          #  mv wordpress/ $WPBASENAME/
-       # fi
-        
-       
-        #wget -q -r --level=0 -nH --cut-dirs=2 --no-parent https://plugins.svn.wordpress.org/litespeed-cache/trunk/ --reject html -P $WORDPRESSPATH/wp-content/plugins/litespeed-cache/
         chmod -R 755 $WORDPRESSPATH
         chown -R nobody:nobody $WORDPRESSPATH
-        wget -P /root http://data.binom.org/binom_check_space.sh
+        
+	#Binom check space#
+	wget -P /root http://data.binom.org/binom_check_space.sh
         chown -R nobody:nobody /root/binom_check_space.sh
-        wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+	chmod +x /root/binom_check_space.sh
+	chmod 700 +x /root/binom_check_space.sh
+	
+	#Make 404 File#
+	cat > /usr/local/bin/rsync-time-backup/rsynctm-exclude.txt <<- EOF
+        <HTML>
+        <HEAD>
+        <TITLE>Page Not Found</TITLE>
+        </HEAD>
+        <BODY BGCOLOR="#FFFFFF">
+        <H1>Page Not Found</H1>
+        </BODY>
+        </HTML>
+        EOF
+        
+	#Install IonCube#
+	wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 	cd /root
         tar -xzvf ioncube_loaders_lin_x86-64.tar.gz
         cp ioncube/ioncube_loader_lin_5.6.so /usr/local/lsws/lsphp56/lib64/php/modules/ioncube_loader_lin_5.6.so
@@ -438,26 +450,6 @@ function install_wordpress
         echoY "$WORDPRESSPATH exists, will use it."
     fi
 }
-
-
-
-#function setup_wordpress
-#{
- #   if [ -e "$WORDPRESSPATH/wp-config-sample.php" ] ; then
-  #      sed -e "s/database_name_here/$DATABASENAME/" -e "s/username_here/$USERNAME/" -e "s/password_here/$USERPASSWORD/" "$WORDPRESSPATH/wp-config-sample.php" > "$WORDPRESSPATH/wp-config.php"
-   #     if [ -e "$WORDPRESSPATH/wp-config.php" ] ; then
-    #        chown  -R --reference="$WORDPRESSPATH/wp-config-sample.php"   "$WORDPRESSPATH/wp-config.php"
-     #       echoG "Finished setting up WordPress."
-      #  else
-       #     echoR "WordPress setup failed. You may not have sufficient privileges to access $WORDPRESSPATH/wp-config.php."
-        #    ALLERRORS=1
-        #fi
-    #else
-     #   echoR "WordPress setup failed. File $WORDPRESSPATH/wp-config-sample.php does not exist."
-      #  ALLERRORS=1
-    #fi
-#}
-
 
 function test_mysql_password
 {
@@ -816,23 +808,53 @@ END
     
             mkdir -p $SERVER_ROOT/conf/vhosts/$SITEDOMAIN/
             cat > $VHOSTCONF <<END 
-docRoot                   \$VH_ROOT/
-index  {
-  useServer               0
-  indexFiles              index.php
+        
+docRoot                   $VH_ROOT/html/
+vhDomain                  $SITEDOMAIN
+
+
+enableGzip                1
+
+errorlog  {
+  useServer               1
 }
 
-context / {
-  type                    NULL
-  location                \$VH_ROOT
-  allowBrowse             1
-  indexFiles              index.php
- 
-  rewrite  {
-    enable                1
-    inherit               1
-    rules                 <<<END_rules
-    rewriteFile           $WORDPRESSPATH/.htaccess
+accesslog $SERVER_ROOT/logs/$VH_NAME.access.log {
+  useServer               0
+  logHeaders              3
+  rollingSize             100M
+  keepDays                30
+  compressArchive         1
+}
+
+index  {
+  useServer               0
+  indexFiles              index.html, index.php
+  autoIndex               0
+  autoIndexURI            /_autoindex/default.php
+}
+
+errorpage 404 {
+  url                     /404.html
+}
+
+expires  {
+  enableExpires           1
+}
+
+accessControl  {
+  allow                   *
+}
+
+rewrite  {
+  enable                  0
+  logLevel                0
+}
+
+    
+    
+    
+    
 
 END_rules
 
