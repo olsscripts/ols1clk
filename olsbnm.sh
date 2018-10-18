@@ -871,6 +871,13 @@ END
         echoR "$SERVER_ROOT/conf/httpd_config.conf is missing, it seems that something went wrong during openlitespeed installation."
         ALLERRORS=1
     fi
+    
+    #SSL INSTALL#
+    wget -P /usr/bin https://dl.eff.org/certbot-auto
+    chmod +x /usr/bin/certbot-auto
+    /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
+    
+    
 }
 
 function getCurStatus
