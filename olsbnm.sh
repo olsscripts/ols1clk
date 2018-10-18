@@ -767,7 +767,7 @@ restrained              1
 setUIDMode              2
 }
 
-listener Default {
+listener Main {
   address                 [ANY]:80
   secure                  0
   keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
