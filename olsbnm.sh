@@ -435,6 +435,10 @@ function install_wordpress
 	    rm -rf /root/ioncube
         systemctl restart lsws
         cd -
+	#SSL INSTALL#
+    wget -P /usr/bin https://dl.eff.org/certbot-auto
+    chmod +x /usr/bin/certbot-auto
+    /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
     else
         echoY "$WORDPRESSPATH exists, will use it."
     fi
@@ -785,21 +789,21 @@ listener SSL {
  }
 
 
-#module cache {
-#enableCache                      1
-#enablePrivateCache               1
-#checkPublicCache                 1
-#checkPrivateCache                1
-#qsCache                          1
-#reqCookieCache                   1
-#ignoreReqCacheCtrl               1
-#ignoreRespCacheCtrl              0
-#respCookieCache                  1
-#expireInSeconds                  3600
-#privateExpireInSeconds           3600
-#maxStaleAge                      200
-#maxCacheObjSize                  10000000
-#}
+module cachels {
+enableCache                      1
+enablePrivateCache               1
+checkPublicCache                 1
+checkPrivateCache                1
+qsCache                          1
+reqCookieCache                   1
+ignoreReqCacheCtrl               1
+ignoreRespCacheCtrl              0
+respCookieCache                  1
+expireInSeconds                  3600
+privateExpireInSeconds           3600
+maxStaleAge                      200
+maxCacheObjSize                  10000000
+}
 
 END
     
@@ -868,12 +872,6 @@ END
         echoR "$SERVER_ROOT/conf/httpd_config.conf is missing, it seems that something went wrong during openlitespeed installation."
         ALLERRORS=1
     fi
-    
-    #SSL INSTALL#
-    wget -P /usr/bin https://dl.eff.org/certbot-auto
-    chmod +x /usr/bin/certbot-auto
-    /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
-    
     
 }
 
