@@ -1447,6 +1447,7 @@ test_ols
     #fi
 #fi
 #SSL INSTALL#
+    /usr/local/lsws/bin/lswsctrl restart
     wget -P /usr/bin https://dl.eff.org/certbot-auto
     chmod +x /usr/bin/certbot-auto
     /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
