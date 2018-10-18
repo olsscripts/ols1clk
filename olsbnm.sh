@@ -769,7 +769,7 @@ setUIDMode              2
 
 listener Default {
   address                 [ANY]:80
-  secure                  1
+  secure                  0
   keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
   certChain               1
