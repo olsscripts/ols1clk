@@ -787,8 +787,6 @@ listener SSL {
 
 
 module cache {
-param <<<PARAMFLAG
-
 enableCache                      1
 enablePrivateCache               1
 checkPublicCache                 1
@@ -802,8 +800,6 @@ expireInSeconds                  3600
 privateExpireInSeconds           3600
 maxStaleAge                      200
 maxCacheObjSize                  10000000
-
-PARAMFLAG
 }
 
 END
