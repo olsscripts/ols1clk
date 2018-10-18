@@ -768,7 +768,7 @@ setUIDMode              2
 }
 
 listener Main {
-  address                 [ANY]:80
+  address                 *:80
   secure                  0
   keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
@@ -777,7 +777,7 @@ listener Main {
 }
 
 listener SSL {
-  address                 [ANY]:443
+  address                 *:443
   secure                  1
   keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
@@ -786,21 +786,21 @@ listener SSL {
  }
 
 
-module cache {
-enableCache                      1
-enablePrivateCache               1
-checkPublicCache                 1
-checkPrivateCache                1
-qsCache                          1
-reqCookieCache                   1
-ignoreReqCacheCtrl               1
-ignoreRespCacheCtrl              0
-respCookieCache                  1
-expireInSeconds                  3600
-privateExpireInSeconds           3600
-maxStaleAge                      200
-maxCacheObjSize                  10000000
-}
+#module cache {
+#enableCache                      1
+#enablePrivateCache               1
+#checkPublicCache                 1
+#checkPrivateCache                1
+#qsCache                          1
+#reqCookieCache                   1
+#ignoreReqCacheCtrl               1
+#ignoreRespCacheCtrl              0
+#respCookieCache                  1
+#expireInSeconds                  3600
+#privateExpireInSeconds           3600
+#maxStaleAge                      200
+#maxCacheObjSize                  10000000
+#}
 
 END
     
