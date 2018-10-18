@@ -799,7 +799,7 @@ END
             mkdir -p $SERVER_ROOT/conf/vhosts/$SITEDOMAIN/
             cat > $VHOSTCONF <<END 
         
-docRoot                   $SITEDOMAIN/html/
+docRoot                   $WORDPRESSPATH
 vhDomain                  $SITEDOMAIN
 
 
