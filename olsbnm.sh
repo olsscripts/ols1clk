@@ -423,6 +423,7 @@ function install_wordpress
 	
 	#Make 404 File#
 	wget -P $WORDPRESSPATH https://consumergen.com/404.html
+	chown -R nobody:nobody /usr/local/lsws/www/toppikreview.com/html/404.html
         
 	#Install IonCube#
 	wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
@@ -789,7 +790,7 @@ listener SSL {
  }
 
 
-module cachels {
+module cache {
 enableCache                      1
 enablePrivateCache               1
 checkPublicCache                 1
