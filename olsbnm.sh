@@ -774,6 +774,7 @@ listener Default {
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
   certChain               1
   map                     $SITEDOMAIN $SITEDOMAIN
+}
 
 listener SSL {
   address                 [ANY]:443
@@ -782,6 +783,7 @@ listener SSL {
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
   certChain               1
   map                     $SITEDOMAIN $SITEDOMAIN
+ }
 
 
 module cache {
