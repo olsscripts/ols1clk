@@ -763,33 +763,43 @@ vhRoot                  $WORDPRESSPATH
 configFile              $VHOSTCONF
 allowSymbolLink         1
 enableScript            1
-restrained              0
+restrained              1
 setUIDMode              2
 }
 
-listener $SITEDOMAIN {
-address                 *:$WPPORT
-secure                  0
-map                     $SITEDOMAIN
-}
+listener Default {
+  address                 [ANY]:80
+  secure                  1
+  keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
+  certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
+  certChain               1
+  map                     $SITEDOMAIN $SITEDOMAIN
+
+listener SSL {
+  address                 [ANY]:443
+  secure                  1
+  keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
+  certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
+  certChain               1
+  map                     $SITEDOMAIN $SITEDOMAIN
 
 
 module cache {
 param <<<PARAMFLAG
 
-enableCache         0
-qsCache             1
-reqCookieCache      1
-respCookieCache     1
-ignoreReqCacheCtrl  1
-ignoreRespCacheCtrl 0
-expireInSeconds     3600
-maxStaleAge         200
-enablePrivateCache  0
-privateExpireInSeconds 3600                      
-checkPrivateCache   1
-checkPublicCache    1
-maxCacheObjSize     10000000
+enableCache                      1
+enablePrivateCache               1
+checkPublicCache                 1
+checkPrivateCache                1
+qsCache                          1
+reqCookieCache                   1
+ignoreReqCacheCtrl               1
+ignoreRespCacheCtrl              0
+respCookieCache                  1
+expireInSeconds                  3600
+privateExpireInSeconds           3600
+maxStaleAge                      200
+maxCacheObjSize                  10000000
 
 PARAMFLAG
 }
