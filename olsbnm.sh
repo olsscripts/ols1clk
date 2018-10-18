@@ -407,7 +407,7 @@ function install_wordpress
         local WPDIRNAME=`dirname $WORDPRESSPATH`
         local WPBASENAME=`basename $WORDPRESSPATH`
         mkdir -p "$WPDIRNAME"
-        mkdir $WORDPRESSPATH
+        mkdir -p $WORDPRESSPATH
         cd "$WORDPRESSPATH"
         
         wget -P $WORDPRESSPATH https://data.binom.org/Install_Binom_Latest.tar.gz
@@ -799,7 +799,7 @@ END
             mkdir -p $SERVER_ROOT/conf/vhosts/$SITEDOMAIN/
             cat > $VHOSTCONF <<END 
         
-docRoot                   $VH_ROOT/html/
+docRoot                   $SITEDOMAIN/html/
 vhDomain                  $SITEDOMAIN
 
 
