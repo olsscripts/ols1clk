@@ -511,7 +511,7 @@ function install_mysql
 [mariadb]
 name = MariaDB
 baseurl = http://yum.mariadb.org/$MARIADBVER/$CENTOSVER
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgkey=http://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 
 END
