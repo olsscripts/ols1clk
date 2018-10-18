@@ -436,10 +436,7 @@ function install_wordpress
 	    rm -rf /root/ioncube
         systemctl restart lsws
         cd -
-	#SSL INSTALL#
-    wget -P /usr/bin https://dl.eff.org/certbot-auto
-    chmod +x /usr/bin/certbot-auto
-    /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
+	
     else
         echoY "$WORDPRESSPATH exists, will use it."
     fi
@@ -1449,7 +1446,10 @@ test_ols
         #test_wordpress
     #fi
 #fi
-
+#SSL INSTALL#
+    wget -P /usr/bin https://dl.eff.org/certbot-auto
+    chmod +x /usr/bin/certbot-auto
+    /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
 echo
 echoG "If you run into any problems, they can sometimes be fixed by running with the --purgeall flag and reinstalling."
 echoG 'Thanks for using "OpenLiteSpeed One click installation".'
