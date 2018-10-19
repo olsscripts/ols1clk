@@ -870,7 +870,11 @@ END
         echoR "$SERVER_ROOT/conf/httpd_config.conf is missing, it seems that something went wrong during openlitespeed installation."
         ALLERRORS=1
     fi
-    
+    #SSL INSTALL#
+    wget -P /usr/bin https://dl.eff.org/certbot-auto
+    chmod +x /usr/bin/certbot-auto
+    /usr/bin/certbot-auto certonly --standalone --pre-hook systemctl stop lsws --post-hook systemctl start lsws  -n --preferred-challenges http --agree-tos --email $EMAIL -d $SITEDOMAIN 
+
 }
 
 function getCurStatus
@@ -1446,11 +1450,6 @@ test_ols
         #test_wordpress
     #fi
 #fi
-#SSL INSTALL#
-    /usr/local/lsws/bin/lswsctrl restart
-    wget -P /usr/bin https://dl.eff.org/certbot-auto
-    chmod +x /usr/bin/certbot-auto
-    /usr/bin/certbot-auto certonly -n --webroot --agree-tos --email $EMAIL -w $WORDPRESSPATH -d $SITEDOMAIN
 echo
 echoG "If you run into any problems, they can sometimes be fixed by running with the --purgeall flag and reinstalling."
 echoG 'Thanks for using "OpenLiteSpeed One click installation".'
