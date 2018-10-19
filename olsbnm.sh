@@ -760,7 +760,7 @@ function config_server
     if [ -e "$SERVER_ROOT/conf/httpd_config.conf" ] ; then
         mv $SERVER_ROOT/conf/httpd_config.conf $SERVER_ROOT/conf/httpd_config.confORIG
 	if [ $? != 0 ] ; then
-            sed -i -e "s/adminEmails/adminEmails $EMAIL\n#adminEmails/" "$SERVER_ROOT/conf/httpd_config.conf"
+            null
             VHOSTCONF=$SERVER_ROOT/conf/vhosts/$SITEDOMAIN/vhconf.conf
 
             cat >> $SERVER_ROOT/conf/httpd_config.conf <<END 
