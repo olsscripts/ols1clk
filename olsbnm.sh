@@ -759,8 +759,7 @@ function config_server
 {
     if [ -e "$SERVER_ROOT/conf/httpd_config.conf" ] ; then
         mv $SERVER_ROOT/conf/httpd_config.conf $SERVER_ROOT/conf/httpd_config.confORIG
-	if [ $? != 0 ] ; then
-            null
+	
             VHOSTCONF=$SERVER_ROOT/conf/vhosts/$SITEDOMAIN/vhconf.conf
 
             cat >> $SERVER_ROOT/conf/httpd_config.conf <<END 
@@ -1050,7 +1049,7 @@ rewrite  {
 
 END
             chown -R lsadm:lsadm $SERVER_ROOT/conf/
-        fi
+        #fi
         
         #setup password
         ENCRYPT_PASS=`"$SERVER_ROOT/admin/fcgi-bin/admin_php" -q "$SERVER_ROOT/admin/misc/htpasswd.php" $ADMINPASSWORD`
