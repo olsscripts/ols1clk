@@ -752,40 +752,174 @@ function install_ols
 function config_server
 {
     if [ -e "$SERVER_ROOT/conf/httpd_config.conf" ] ; then
-        cat $SERVER_ROOT/conf/httpd_config.conf | grep "virtualhost wordpress" >/dev/null
-        if [ $? != 0 ] ; then
-            sed -i -e "s/adminEmails/adminEmails $EMAIL\n#adminEmails/" "$SERVER_ROOT/conf/httpd_config.conf"
+        mv $SERVER_ROOT/conf/httpd_config.conf $SERVER_ROOT/conf/httpd_config.confORIG
             VHOSTCONF=$SERVER_ROOT/conf/vhosts/$SITEDOMAIN/vhconf.conf
 
             cat >> $SERVER_ROOT/conf/httpd_config.conf <<END 
 
-virtualhost $SITEDOMAIN {
-vhRoot                  $WORDPRESSPATH
-configFile              $VHOSTCONF
-allowSymbolLink         1
-enableScript            1
-restrained              1
-setUIDMode              2
+#
+# PLAIN TEXT CONFIGURATION FILE
+#
+
+#It not set, will use host name as serverName
+serverName                       
+user                             nobody
+group                            nobody
+priority                         0
+autoRestart                      1 
+chrootPath                       / 
+enableChroot                     0 
+inMemBufSize                     60M 
+swappingDir                      /tmp/lshttpd/swap 
+autoFix503                       1 
+gracefulRestartTimeout           300
+mime                             $SERVER_ROOT/conf/mime.properties 
+showVersionNumber                0 
+adminEmails                      $EMAIL
+adminRoot                        $SERVER_ROOT/admin/ 
+indexFiles                       index.html, index.php
+disableWebAdmin                  0
+
+errorlog $SERVER_ROOT/logs/error.log {
+        logLevel             DEBUG
+        debugLevel           0
+        rollingSize          10M
+        enableStderrLog      1
+}
+    
+accessLog $SERVER_ROOT/logs/access.log {
+        rollingSize          10M    
+        keepDays             30    
+        compressArchive      0
+        logReferer           1     
+        logUserAgent         1
+}
+    
+expires {
+    enableExpires           1
+    expiresByType           image/*=A604800, text/css=A604800, application/x-javascript=A604800
 }
 
-listener Main {
-  address                 *:80
-  secure                  0
-  keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
-  certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
-  certChain               1
-  map                     $SITEDOMAIN $SITEDOMAIN
+tuning{
+    maxConnections               2000 
+    maxSSLConnections            1000 
+    connTimeout                  300 
+    maxKeepAliveReq              1000 
+    smartKeepAlive               0 
+    keepAliveTimeout             5 
+    sndBufSize                   0 
+    rcvBufSize                   0 
+    gzipStaticCompressLevel      6 
+    gzipMaxFileSize              10M 
+    eventDispatcher              best 
+    maxCachedFileSize            4096 
+    totalInMemCacheSize          20M 
+    maxMMapFileSize              256K 
+    totalMMapCacheSize           40M 
+    useSendfile                  1 
+    fileETag                     28 
+    SSLCryptoDevice              null 
+    maxReqURLLen                 8192 
+    maxReqHeaderSize             16380 
+    maxReqBodySize               2047M 
+    maxDynRespHeaderSize         8192 
+    maxDynRespSize               2047M 
+    enableGzipCompress           1
+    enableBrCompress             1
+    enableDynGzipCompress        1 
+    gzipCompressLevel            6 
+    compressibleTypes            text/*,application/x-javascript,application/javascript,application/xml, image/svg+xml 
+    gzipAutoUpdateStatic         1 
+    gzipMinFileSize              300 
 }
 
-listener SSL {
-  address                 *:443
-  secure                  1
-  keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
-  certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
-  certChain               1
-  map                     $SITEDOMAIN $SITEDOMAIN
- }
+accessDenyDir{
+    dir                  /
+    dir                  /etc/*
+    dir                  /dev/*
+    dir                  $SERVER_ROOT/conf/*
+    dir                  $SERVER_ROOT/admin/conf/*
+}
 
+fileAccessControl{
+    followSymbolLink                            1 
+    checkSymbolLink                             0 
+    requiredPermissionMask                      000 
+    restrictedPermissionMask                    000 
+}
+
+perClientConnLimit{
+    staticReqPerSec                          0 
+    dynReqPerSec                             0 
+    outBandwidth                             0 
+    inBandwidth                              0 
+    softLimit                                10000 
+    hardLimit                                10000 
+    gracePeriod                              15 
+    banPeriod                                300 
+}
+
+CGIRLimit{
+    maxCGIInstances                         20 
+    minUID                                  11 
+    minGID                                  10 
+    priority                                0 
+    CPUSoftLimit                            10 
+    CPUHardLimit                            50 
+    memSoftLimit                            1460M
+    memHardLimit                            1470M
+    procSoftLimit                           400 
+    procHardLimit                           450 
+}
+    
+accessControl{
+	allow                                   ALL
+	deny
+}
+ 
+extProcessor lsphp{
+    type                            lsapi 
+    address                         uds://tmp/lshttpd/lsphp.sock 
+    maxConns                        35 
+    env                             PHP_LSAPI_CHILDREN=35 
+    initTimeout                     60 
+    retryTimeout                    0 
+    persistConn                     1 
+    pcKeepAliveTimeout
+    respBuffer                      0 
+    autoStart                       1 
+    path                            $SERVER_ROOT/fcgi-bin/lsphp
+    backlog                         100 
+    instances                       1 
+    priority                        0 
+    memSoftLimit                    2047M 
+    memHardLimit                    2047M 
+    procSoftLimit                   400 
+    procHardLimit                   500 
+}
+
+scriptHandler{
+    add lsapi:lsphp  php
+}
+
+railsDefaults{
+    rubyBin                  
+    railsEnv                 1 
+    maxConns                 5 
+    env                      LSAPI_MAX_IDLE=60 
+    initTimeout              60 
+    retryTimeout             0 
+    pcKeepAliveTimeout       60 
+    respBuffer               0 
+    backlog                  50 
+    runOnStartUp             1
+    extMaxIdleTime           300
+    priority                 3 
+    memSoftLimit             2047M 
+    memHardLimit             2047M 
+    procSoftLimit            500 
+    procHardLimit            600 
+}
 
 module cache {
 enableCache                      1
@@ -801,7 +935,63 @@ expireInSeconds                  3600
 privateExpireInSeconds           3600
 maxStaleAge                      200
 maxCacheObjSize                  10000000
+}   
+ 
+ 
+virtualHost Example{
+    vhRoot                   $SERVER_ROOT/Example/
+    allowSymbolLink          1 
+    enableScript             1 
+    restrained               1 
+    maxKeepAliveReq
+    smartKeepAlive                  
+    setUIDMode               0 
+    chrootMode               0 
+    configFile               $SERVER_ROOT/conf/vhosts/Example/vhconf.conf
 }
+
+virtualhost $SITEDOMAIN {
+vhRoot                  /usr/local/lsws/www/$SITEDOMAIN/html
+configFile              /usr/local/lsws/conf/vhosts/$SITEDOMAIN/vhconf.conf
+allowSymbolLink         1
+enableScript            1
+restrained              0
+setUIDMode              2
+}
+
+listener Main {
+  address                 *:80
+  secure                  1
+  keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
+  certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
+  certChain               1
+  map                     $SITEDOMAIN $SITEDOMAIN Example
+}
+
+listener SSL {
+  address                 *:443
+  secure                  1
+  keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
+  certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
+  certChain               1
+  map                     $SITEDOMAIN $SITEDOMAIN
+ }
+    
+vhTemplate centralConfigLog{
+    templateFile             $SERVER_ROOT/conf/templates/ccl.conf
+    listeners                Main
+}
+
+vhTemplate PHP_SuEXEC{
+    templateFile             $SERVER_ROOT/conf/templates/phpsuexec.conf
+    listeners                Main
+}
+
+vhTemplate EasyRailsWithSuEXEC{
+    templateFile             $SERVER_ROOT/conf/templates/rails.conf
+    listeners                Main
+}
+
 
 END
     
@@ -1084,7 +1274,7 @@ function test_page
 function test_ols
 {
     test_page https://localhost:7080/ "LiteSpeed WebAdmin" "test webAdmin page" 
-    test_page http://localhost:8088/  Congratulation "test Example vhost page" 
+    test_page http://localhost:80/  Congratulation "test Example vhost page" 
 }
 
 #function test_wordpress
