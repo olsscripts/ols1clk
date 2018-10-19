@@ -972,7 +972,7 @@ listener Main {
   keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
   certChain               1
-  map                     $SITEDOMAIN $SITEDOMAIN Example
+  map                     $SITEDOMAIN $SITEDOMAIN Example *
 }
 
 listener SSL {
@@ -1049,7 +1049,7 @@ rewrite  {
 
 END
             chown -R lsadm:lsadm $SERVER_ROOT/conf/
-        #fi
+        
         
         #setup password
         ENCRYPT_PASS=`"$SERVER_ROOT/admin/fcgi-bin/admin_php" -q "$SERVER_ROOT/admin/misc/htpasswd.php" $ADMINPASSWORD`
