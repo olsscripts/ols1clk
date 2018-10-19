@@ -1278,7 +1278,7 @@ function test_ols
 {
     test_page https://localhost:7080/ "LiteSpeed WebAdmin" "test webAdmin page" 
     test_page http://localhost:80/  Congratulation "test Example vhost page" 
-    test_page http://$SITEDOMAIN:80/  Congratulation "Test Tracker Page"
+    
 }
 
 #function test_wordpress
@@ -1286,10 +1286,11 @@ function test_ols
    # test_page http://localhost:$WPPORT/ "data-continue" "test wordpress first page" 
 #}
 
-#function test_wordpress_plus
-#{
+function test_wordpress_plus
+{
+    test_page http://$SITEDOMAIN:80/  Congratulation "Test Tracker Page"
     #test_page http://$SITEDOMAIN:$WPPORT/ hello-world "test wordpress first page" 
-#}
+}
 
 
 #####################################################################################
