@@ -775,23 +775,19 @@ map                     $SITEDOMAIN
 
 
 module cache {
-param <<<PARAMFLAG
-
-enableCache         0
-qsCache             1
-reqCookieCache      1
-respCookieCache     1
-ignoreReqCacheCtrl  1
-ignoreRespCacheCtrl 0
-expireInSeconds     3600
-maxStaleAge         200
-enablePrivateCache  0
-privateExpireInSeconds 3600                      
-checkPrivateCache   1
-checkPublicCache    1
-maxCacheObjSize     10000000
-
-PARAMFLAG
+enableCache                      1
+enablePrivateCache               1
+checkPublicCache                 1
+checkPrivateCache                1
+qsCache                          1
+reqCookieCache                   1
+ignoreReqCacheCtrl               1
+ignoreRespCacheCtrl              0
+respCookieCache                  1
+expireInSeconds                  3600
+privateExpireInSeconds           3600
+maxStaleAge                      200
+maxCacheObjSize                  10000000
 }
 
 END
