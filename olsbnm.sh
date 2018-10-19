@@ -1288,8 +1288,7 @@ function test_ols
 
 function test_wordpress_plus
 {
-    test_page http://$SITEDOMAIN:80/  Congratulation "Test Tracker Page"
-    #test_page http://$SITEDOMAIN:$WPPORT/ hello-world "test wordpress first page" 
+    test_page http://$SITEDOMAIN:80/  Install Binom "Test Tracker Page"
 }
 
 
