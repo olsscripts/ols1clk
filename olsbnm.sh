@@ -1278,6 +1278,7 @@ function test_ols
 {
     test_page https://localhost:7080/ "LiteSpeed WebAdmin" "test webAdmin page" 
     test_page http://localhost:80/  Congratulation "test Example vhost page" 
+    test_page http://$SITEDOMAIN:80/  Congratulation "Test Tracker Page"
 }
 
 #function test_wordpress
