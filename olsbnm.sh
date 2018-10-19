@@ -972,7 +972,8 @@ listener Main {
   keyFile                 /etc/letsencrypt/live/$SITEDOMAIN/privkey.pem
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
   certChain               1
-  map                     $SITEDOMAIN $SITEDOMAIN Example *
+  map                     $SITEDOMAIN $SITEDOMAIN
+  map                     Example *
 }
 
 listener SSL {
@@ -982,6 +983,7 @@ listener SSL {
   certFile                /etc/letsencrypt/live/$SITEDOMAIN/fullchain.pem
   certChain               1
   map                     $SITEDOMAIN $SITEDOMAIN
+  map                     Example *
  }
     
 vhTemplate centralConfigLog{
