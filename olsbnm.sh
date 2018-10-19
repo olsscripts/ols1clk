@@ -1638,13 +1638,13 @@ fi
 echo
 echoY "Testing ..."
 test_ols
-#if [ "x$INSTALLWORDPRESS" = "x1" ] ; then
-   # if [ "x$INSTALLWORDPRESSPLUS" = "x1" ] ; then
-        #test_wordpress_plus
-    #else
-        #test_wordpress
-    #fi
-#fi
+if [ "x$INSTALLWORDPRESS" = "x1" ] ; then
+    if [ "x$INSTALLWORDPRESSPLUS" = "x1" ] ; then
+        test_wordpress_plus
+    else
+        test_wordpress
+    fi
+fi
 echo
 echoG "If you run into any problems, they can sometimes be fixed by running with the --purgeall flag and reinstalling."
 echoG 'Thanks for using "OpenLiteSpeed One click installation".'
