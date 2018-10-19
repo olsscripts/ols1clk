@@ -871,10 +871,11 @@ END
         ALLERRORS=1
     fi
     #SSL INSTALL#
+    systemctl stop lsws
     wget -P /usr/bin https://dl.eff.org/certbot-auto
     chmod +x /usr/bin/certbot-auto
-    /usr/bin/certbot-auto certonly --standalone --pre-hook systemctl stop lsws --post-hook systemctl start lsws  -n --preferred-challenges http --agree-tos --email $EMAIL -d $SITEDOMAIN 
-
+    /usr/bin/certbot-auto certonly --standalone -n --preferred-challenges http --agree-tos --email $EMAIL -d $SITEDOMAIN 
+    systemctl start lsws
 }
 
 function getCurStatus
