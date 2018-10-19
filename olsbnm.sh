@@ -1276,14 +1276,14 @@ function test_page
 
 function test_ols
 {
-    test_page https://localhost:7080/ "LiteSpeed WebAdmin" "test webAdmin page" 
-    test_page http://localhost:80/  Congratulation "test Example vhost page" 
+    test_page https://localhost:7080/ "LiteSpeed WebAdmin" "Test WebAdmin page" 
+    test_page http://localhost:80/  Congratulation "Test Example vhost page" 
     
 }
 
 function test_wordpress
 {
-    test_page http://$SITEDOMAIN:80/  "Install Binom" "Test Tracker Page"
+    test_page http://$SITEDOMAIN:80/  "Install Binom" "Test Tracker page"
 }
 
 function test_wordpress_plus
