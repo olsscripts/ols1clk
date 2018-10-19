@@ -1281,14 +1281,14 @@ function test_ols
     
 }
 
-#function test_wordpress
-#{
-   # test_page http://localhost:$WPPORT/ "data-continue" "test wordpress first page" 
-#}
+function test_wordpress
+{
+    test_page http://$SITEDOMAIN:80/  "Install Binom" "Test Tracker Page"
+}
 
 function test_wordpress_plus
 {
-    test_page http://$SITEDOMAIN:80/  Install Binom "Test Tracker Page"
+    test_page http://$SITEDOMAIN:80/  "Install Binom" "Test Tracker Page"
 }
 
 
