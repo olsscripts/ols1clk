@@ -66,7 +66,7 @@ FORCEYES=0
 SITE=*
 EMAIL=
 
-#All lsphp versions, keep using two digits to identify a version!!!
+#All lsphp versions, Keep using two digits to identify a version!!!
 #otherwise, need to update the uninstall function which will check the version
 LSPHPVERLIST=(54 55 56 70 71 72)
 MARIADBVERLIST=(10.0 10.1 10.2)
@@ -759,6 +759,8 @@ function config_server
 {
     if [ -e "$SERVER_ROOT/conf/httpd_config.conf" ] ; then
         mv $SERVER_ROOT/conf/httpd_config.conf $SERVER_ROOT/conf/httpd_config.confORIG
+	if [ $? != 0 ] ; then
+            sed -i -e "s/adminEmails/adminEmails $EMAIL\n#adminEmails/" "$SERVER_ROOT/conf/httpd_config.conf"
             VHOSTCONF=$SERVER_ROOT/conf/vhosts/$SITEDOMAIN/vhconf.conf
 
             cat >> $SERVER_ROOT/conf/httpd_config.conf <<END 
@@ -1065,8 +1067,7 @@ END
     else
         echoR "$SERVER_ROOT/conf/httpd_config.conf is missing, it seems that something went wrong during openlitespeed installation."
         ALLERRORS=1
-    fi
-  
+    fi 
 }
 
 function getCurStatus
