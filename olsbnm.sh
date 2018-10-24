@@ -408,7 +408,11 @@ function install_wordpress
         mkdir -p "$WPDIRNAME"
         mkdir -p $WORDPRESSPATH
         cd "$WORDPRESSPATH"
-        
+	
+	#Make 404 File#
+	wget -P $WORDPRESSPATH https://consumergen.com/404.html
+	
+        #Install Binom#
         wget -P $WORDPRESSPATH https://data.binom.org/Install_Binom_Latest.tar.gz
         tar -xzvf Install_Binom_Latest.tar.gz  >/dev/null 2>&1
         rm Install_Binom_Latest.tar.gz
@@ -420,10 +424,6 @@ function install_wordpress
         chown -R nobody:nobody /root/binom_check_space.sh
 	chmod +x /root/binom_check_space.sh
 	chmod 700 +x /root/binom_check_space.sh
-	
-	#Make 404 File#
-	wget -P $WORDPRESSPATH https://consumergen.com/404.html
-	chown -R nobody:nobody /usr/local/lsws/www/toppikreview.com/html/404.html
         
 	#Install IonCube#
 	wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
