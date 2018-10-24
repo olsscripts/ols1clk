@@ -435,13 +435,13 @@ function install_wordpress
         rm -f /root/ioncube_loaders_lin_x86-64.tar.gz
 	    rm -rf /root/ioncube
         systemctl restart lsws
-        #cd -
-	  #SSL INSTALL#
-    systemctl stop lsws
-    wget -P /usr/bin https://dl.eff.org/certbot-auto
-    chmod +x /usr/bin/certbot-auto
-    /usr/bin/certbot-auto certonly --standalone -n --preferred-challenges http --agree-tos --email $EMAIL -d $SITEDOMAIN 
-    systemctl start lsws
+       
+	#SSL INSTALL#
+        systemctl stop lsws
+        wget -P /usr/bin https://dl.eff.org/certbot-auto
+        chmod +x /usr/bin/certbot-auto
+        /usr/bin/certbot-auto certonly --standalone -n --preferred-challenges http --agree-tos --email $EMAIL -d $SITEDOMAIN 
+        systemctl start lsws
 	
     else
         echoY "$WORDPRESSPATH exists, will use it."
