@@ -575,11 +575,14 @@ END
     fi
     
     #mysql_secure_installation
-    #mysql_install_db
-    
-    mysql -uroot -e "update mysql.user set plugin='' where user='root';"
-    mysql -uroot -e "flush privileges;" 
-    #service mysql restart
+mysql -u root -p"$ROOTPASSWORD"
+DELETE FROM mysql.user WHERE User='';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+FLUSH PRIVILEGES;
+EXIT
+  
     
     mysqladmin -uroot password $ROOTPASSWORD
     if [ $? = 0 ] ; then
