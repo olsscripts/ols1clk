@@ -570,7 +570,7 @@ END
     fi
     
     #mysql_secure_installation
-mysql -u root -p"p@y1T8WjGDmk7"
+mysql -u root -p"$ROOTPASSWORD"
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DROP DATABASE IF EXISTS test;
