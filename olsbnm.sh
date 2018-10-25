@@ -578,13 +578,11 @@ END
 #FLUSH PRIVILEGES;
 #EXIT
 
-mysql --user=root -p"$ROOTPASSWORD"
-DELETE FROM mysql.user WHERE User='';
-#DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-DROP DATABASE IF EXISTS test;
-DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
-FLUSH PRIVILEGES;
-EXIT
+mysql -uroot -e "DELETE FROM mysql.user WHERE User='';"
+mysql -uroot -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" 
+mysql -uroot -e "DROP DATABASE IF EXISTS test;"
+mysql -uroot -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';" 
+mysql -uroot -e "FLUSH PRIVILEGES;"
     
     mysqladmin -uroot password $ROOTPASSWORD
     if [ $? = 0 ] ; then
