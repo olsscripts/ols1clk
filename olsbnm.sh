@@ -414,7 +414,7 @@ function install_wordpress
 	
         #Install Binom#
         wget -P $WORDPRESSPATH https://data.binom.org/Install_Binom_Latest.tar.gz
-        tar -xzvf Install_Binom_Latest.tar.gz  >/dev/null 2>&1
+        tar -xzf Install_Binom_Latest.tar.gz  >/dev/null 2>&1
         rm Install_Binom_Latest.tar.gz
         chmod -R 755 $WORDPRESSPATH
         chown -R nobody:nobody $WORDPRESSPATH
@@ -428,7 +428,7 @@ function install_wordpress
 	#Install IonCube#
 	wget -P /root https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 	cd /root
-        tar -xzvf ioncube_loaders_lin_x86-64.tar.gz
+        tar -xzf ioncube_loaders_lin_x86-64.tar.gz
         cp ioncube/ioncube_loader_lin_5.6.so /usr/local/lsws/lsphp56/lib64/php/modules/ioncube_loader_lin_5.6.so
         echo "zend_extension = /usr/local/lsws/lsphp56/lib64/php/modules/ioncube_loader_lin_5.6.so" \
         > '/usr/local/lsws/lsphp56/etc/php.d/00-ioncube.ini'
